@@ -29,7 +29,7 @@ public class Persona {
     @Column
     private String nombre;
     
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String foto;
     
     @Temporal(TemporalType.DATE)

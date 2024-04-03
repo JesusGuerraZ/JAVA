@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Entity
 @Getter
- @Setter
+@Setter
 public class Cargo {
     
     @Id
