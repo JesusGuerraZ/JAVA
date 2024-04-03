@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <form id="formulario" class="mb-4">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cedula">Cédula</label>
+                        <input type="number" class="form-control" id="cedula" placeholder="Ingrese su cédula" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Foto</label>
+                        <input type="file" class="form-control-file" id="foto">
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Cargo</label>
+                        <select class="form-control" id="cargo" required></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table mt-5">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Cédula</th>
+                            <th>Foto</th>
+                            <th>Cargo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaRegistros">
+                        <!-- Aquí se mostrarán los registros -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarLabel">Editar Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formularioEditar">
+                        <div class="form-group">
+                            <label for="nombreEditar">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cedulaEditar">Cédula</label>
+                            <input type="number" class="form-control" id="cedulaEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fotoEditar">Foto</label>
+                            <input type="file" class="form-control-file" id="fotoEditar">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargoEditar">Cargo</label>
+                            <select class="form-control" id="cargoEditar" required></select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarEditar">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
