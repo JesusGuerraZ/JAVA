@@ -9,17 +9,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Getter
+ @Setter
 public class Cargo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    private Long idCargo;
     
+    private long idCargo;
+    
+
     @Column
-    @Getter
-    @Setter
     private String nombre;
+
+    public Cargo() {
+        // Constructor vacío necesario para JPA
+    }
+
+    public Cargo(String nombre) {
+        this.nombre = nombre;
+    }
     
 }

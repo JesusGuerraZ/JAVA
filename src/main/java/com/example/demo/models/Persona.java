@@ -14,39 +14,30 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Persona {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    
     private long id;
     
     @Column
-    @Getter
-    @Setter
     private long cedula;
     
     @Column
-    @Getter
-    @Setter
     private String nombre;
     
     @Column
-    @Getter
-    @Setter
     private String foto;
     
     @Temporal(TemporalType.DATE)
     @Column
-    @Getter
-    @Setter
     private Date fechaIngreso;
     
     @ManyToOne
-    @JoinColumn(name = "cargo_id")
-    @Getter
-    @Setter
+    @JoinColumn(name = "id_cargo")
     private Cargo cargo;
     
 }

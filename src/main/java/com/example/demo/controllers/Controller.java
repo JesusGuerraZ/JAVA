@@ -4,8 +4,21 @@
  */
 package com.example.demo.controllers;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.models.Cargo;
+import com.example.demo.models.Persona;
+import com.example.demo.repository.Repository;
+import com.example.demo.repository.cargoRepository;
 
 /**
  *
@@ -14,6 +27,49 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Controller {
+    
+
+    @Autowired
+    private Repository repo;
+    private cargoRepository cargoRepository;
+
+    @GetMapping("empleados")
+    public List<Persona> getPersonas() {
+        return repo.findAll();
+    }
+
+    @PostMapping("crear")
+    public String save(@RequestBody Persona persona) {
+        // Obtiene la instancia de Cargo usando su ID
+       // Cargo cargo = cargoRepository.findById(persona.getCargo()).orElseThrow(() -> new RuntimeException("Cargo not found"));
+    
+        // Establece la fecha de ingreso
+        persona.setFechaIngreso(new Date());
+    
+        // Establece el Cargo en la Persona
+       // persona.setCargo(cargo);
+    
+        // Guarda la Persona en la base de datos
+        repo.save(persona);
+    
+        return "GUARDADO";
+    }
+    
+
+    @PutMapping("editar/{id}")
+    public String update(@PathVariable Long id,@RequestBody Persona persona) {
+        Persona actualizar = repo.findById(id).get();
+
+        actualizar.setNombre(persona.getNombre());
+        actualizar.setCedula(persona.getCedula());
+        actualizar.setFoto(persona.getFoto());
+        actualizar.setCargo(persona.getCargo());
+        actualizar.setFechaIngreso(persona.getFechaIngreso());
+
+        return "EDITADO";
+    }
+
+
     
     @GetMapping()
     public String index(){
