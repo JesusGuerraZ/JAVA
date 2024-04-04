@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Función para cargar los registros desde el backend y mostrarlos en la tabla
     function cargarRegistros() {
-        axios.get("http://localhost:8080/empleados")
+        axios.get("http://127.0.0.1:8080/empleados")
             .then(function (response) {
                 const registros = response.data;
                 mostrarRegistros(registros);
@@ -64,7 +64,7 @@ function mostrarRegistros(registros) {
 
     // Función para eliminar un registro
     function eliminarRegistro(idRegistro) {
-        axios.delete(`http://localhost:8080/eliminar/${idRegistro}`)
+        axios.delete(`http://127.0.0.1:8080/eliminar/${idRegistro}`)
             .then(function (response) {
                 console.log(response.data);
                 alert("Registro eliminado correctamente");
@@ -82,7 +82,7 @@ function mostrarRegistros(registros) {
         $('#modalEditar').modal('show');
 
         // Cargar los cargos en el select del modal de edición
-        axios.get("http://localhost:8080/cargo")
+        axios.get("http://127.0.0.1:8080/cargo")
             .then(function (response) {
                 const cargos = response.data;
                 const selectCargoEditar = document.getElementById("cargoEditar");
@@ -104,17 +104,26 @@ function mostrarRegistros(registros) {
             const cedulaEditada = document.getElementById("cedulaEditar").value;
             const fotoEditada = document.getElementById("fotoEditar").files[0];
             const idCargoEditada = document.getElementById("cargoEditar").value;
-
-            const payload = {
-                nombre: nombreEditado,
-                cedula: cedulaEditada,
-                foto: fotoEditada.name,
-                cargo: {
-                    idCargo: idCargoEditada
-                }
-            };
-
-            axios.put(`http://localhost:8080/editar/${idRegistro}`, payload)
+        
+            // Crear un objeto FileReader para leer el contenido de la imagen como una cadena base64
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const fotoBase64 = event.target.result.split(',')[1]; // Obtener la parte base64 de la URL
+                const payload = {
+                    nombre: nombreEditado,
+                    cedula: cedulaEditada,
+                    foto: fotoBase64, // Guardar la imagen en formato base64
+                    cargo: {
+                        idCargo: idCargoEditada
+                    }
+                };
+        
+                // Realizar una solicitud PUT al backend Java
+                axios.put(`http://127.0.0.1:8080/editar/${idRegistro}`, payload, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
                 .then(function (response) {
                     console.log(response.data);
                     alert("Registro editado correctamente");
@@ -125,12 +134,14 @@ function mostrarRegistros(registros) {
                     console.error(error);
                     alert("Error al editar el registro");
                 });
+            };
+            reader.readAsDataURL(fotoEditada); // Leer el contenido de la imagen como una cadena base64
         });
     }
 
     // Función para cargar los cargos desde el backend y llenar el select
     function cargarCargos() {
-        axios.get("http://localhost:8080/cargo")
+        axios.get("http://127.0.0.1:8080/cargo")
             .then(function (response) {
                 const cargos = response.data;
                 cargos.forEach(cargo => {
@@ -175,7 +186,7 @@ function mostrarRegistros(registros) {
             };
     
             // Realiza una solicitud POST al backend Java
-            axios.post("http://localhost:8080/crear", payload, {
+            axios.post("http://127.0.0.1:8080/crear", payload, {
                 headers: {
                     "Content-Type": "application/json"
                 }
